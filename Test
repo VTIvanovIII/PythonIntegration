@@ -2,7 +2,26 @@
 # This is a basic adventure game ot show off my Python skills.
 
 # Introduction
-def intro():
+def main():
+    print_intro()
+    valid_character = False
+    while valid_character == False:
+        name_first = input("Please tell me your first name. ")
+        name_last = input("And your last name? ")
+        age = input("How old are you? ")
+        age_test = age.isnumeric()
+        while (age_test == False):
+            print("Please provide a real number.")
+            age = input("How old are you? ")
+            age_test = age.isnumeric()
+        hometown = input("Where are you from? ")
+        # Prof. Vanselow: Define variables in main, use as arguments in calls to functions.
+        # Variables get received as parameters in headers of functions.
+        valid_character = check_character(name_first, name_last, age, hometown)
+    print_backstory(name_first, name_last)
+
+
+def print_intro():
     print("\nHello, and welcome to The Quest!  This adventure is very simple and ")
     print("straight-forward, but you will face combat, manage your items, and ")
     print("make choices that affect the story.\n")
@@ -14,56 +33,28 @@ def intro():
     input("Let's create the adventurer now... *")
     print("")
 
-# Character Creation
-def create_character():
-    global name_first
-    name_first = input("Please tell me your first name. ")
-    global name_last
-    name_last = input("And your last name? ")
-    global age
-    age = input("How old are you? ")
-    global age_test
-    age_test = age.isnumeric()
-    while (age_test == False):
-        print("Please provide a real number.")
-        age = input("How old are you? ")
-        age_test = age.isnumeric()
-    global hometown
-    hometown = input("Where are you from? ")
 
-def check_character():
-    create_character()
+def check_character(name_first, name_last, age, hometown):
     print("\nLet me make sure I got this right...")
     print("Your first name is", name_first + ".")
     print("Your last name is", name_last + ".")
     print("You are", age, "years old.")
     print("You are from", hometown + ".\n")
     c_check = input("Is this correct? ")
-
-    def char_invalid():
+    while c_check != "No" and c_check != "no" and c_check != "Yes" and c_check != "yes":
         print("\nLet me ask you again.")
-        global c_check
         c_check = input("Is this information correct? ")
-
-    def char_false():
-        print("\n*sigh* Let's try this again...\n")
-        create_character()
-        print("\nLet me make sure I got this right...")
-        print("Your first name is", name_first + ".")
-        print("Your last name is", name_last + ".")
-        print("You are", age, "years old.")
-        print("You are from", hometown + ".")
-        global c_check
-        c_check = input("\nIs this correct? ")
-
-    while (c_check != "No" and c_check != "no" and c_check != "Yes" and c_check != "yes"):
-        char_invalid()
-    while (c_check == "No" or c_check == "no"):
-        char_false()
+        return False
+        # For some reason, when this runs twice, it skips back to asking for information.
     if (c_check == "Yes" or c_check == "yes"):
         input("\nGreat!  Let me tell you about the setting, then. *")
+        return True
+    else:
+        print("\n*sigh* Let's try this again...\n")
+        return False
 
-def backstory():
+
+def print_backstory(name_first, name_last):
     print("\nOne morning, you received a strange letter from the postman:\n")
     print("~" * 71)
     print("    Dear", name_first, "of House", name_last + ",")
@@ -80,6 +71,7 @@ def backstory():
     input("\n   The Quest awaits... *")
     print("\nNow, before we go any further, your adventurer needs combat stats.")
     input("Let's get you equipped. *")
+
 
 # Stats - Inputs
 def stat_defining():
@@ -99,6 +91,7 @@ def stat_defining():
     global magic
     print("\nIf 1 = Another sheep in the herd and 10 = Having a lion as a house pet,")
     magic = int(input("How weird are you? "))
+
 
 def check_stats():
     stat_defining()
@@ -134,6 +127,7 @@ def check_stats():
     if (stat_check == "Yes" or stat_check == "yes"):
         input("\nGreat!  Let me calculate your stats... *")
 
+
 # Stats - Calculations
 def calculate_stats():
     max_hp = defense * 20
@@ -145,6 +139,7 @@ def calculate_stats():
     defense *= 5
     agility = (speed * 5) / 2
     smarts = (intelligence + int(age)) // 2 - (int(age) // 5)
+
 
 # Stats - Outputs
 def show_stats():
@@ -159,6 +154,7 @@ def show_stats():
     print("Speed: " + str(agility))
     print("Perception:  " + str(smarts))
 
+
 def menu_stats():
     print("\nStats")
     print("-" * 17)
@@ -171,3 +167,6 @@ def menu_stats():
     print("Spd:     " + str(agility))
     print("Per:     " + str(smarts))
     print("-" * 17, "\n")
+
+
+main()
