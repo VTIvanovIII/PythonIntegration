@@ -1,9 +1,10 @@
-# Vasil Ivanov III
-# This is a basic adventure game ot show off my Python skills.
+"""This is a basic adventure game ot show off my Python skills."""
+__author__ = "Vasil Ivanov III"
 
 # Introduction
 import math
 import random
+
 
 def main():
     print_intro()
@@ -86,13 +87,13 @@ def main():
     c_hp = m_hp
     m_mp = int(magic) * 10
     c_mp = m_mp
-    atk = int(atk)**2
-    defense = int(defense)*5
+    atk = int(atk) ** 2
+    defense = int(defense) * 5
     agility = (int(speed) * 5) / 2
     smarts = (int(intel) + int(age)) // 2 - (int(age) // 5)
     print_stats(m_hp, m_mp, atk, defense, agility, smarts)
     list_stats_short = ["HP", "MP", "Atk", "Def", "Spd", "Per"]
-    list_stats = [str(c_hp)+"/"+str(m_hp), str(c_mp)+"/"+str(m_mp), str(atk),
+    list_stats = [str(c_hp) + "/" + str(m_hp), str(c_mp) + "/" + str(m_mp), str(atk),
                   str(defense), str(agility), str(smarts)]
     equipment = "Fists"
     list_battle = ["Attack", "Guard", "Use Item", "Check Stats", "Run"]
@@ -103,6 +104,8 @@ def main():
 
 
 def print_intro():
+    """This function prints the introduction text for the game, introducing
+    the player to the game."""
     input("\nHello, and welcome to The Quest!  This adventure is very simple"
           "\nand straight-forward, but you will face combat, manage your"
           "\nitems, and make choices that affect the story.\n"
@@ -116,6 +119,8 @@ def print_intro():
 
 
 def check_character(name_first, name_last, age, hometown):
+    """This function tells the player to confirm and lock in their character
+    information."""
     print("\nLet me make sure I got this right..."
           "\nYour first name is", name_first + "."
           "\nYour last name is", name_last + "."
@@ -136,6 +141,7 @@ def check_character(name_first, name_last, age, hometown):
 
 
 def print_backstory(name_first, name_last):
+    """This function prints the backstory text for the story."""
     # Reformat this paragraph
     print("\nOne morning, you received a strange letter from the postman:\n")
     print("~" * 71)
@@ -156,6 +162,8 @@ def print_backstory(name_first, name_last):
 
 
 def check_stats(attack, defense, speed, intelligence, magic):
+    """This function asks the player to confirm and lock in their answers for
+    their stats."""
     print("\nLet me make sure I got this right...")
     print("For how strong you are, you put", str(attack) + ".")
     print("For how durable you are, you put", str(defense) + ".")
@@ -178,6 +186,7 @@ def check_stats(attack, defense, speed, intelligence, magic):
 
 # Stats - Outputs
 def print_stats(max_hp, max_mp, attack, defense, agility, smarts):
+    """This function prints the player's stats for the first time."""
     input(". *")
     input(".. *")
     input("... *")
@@ -190,32 +199,23 @@ def print_stats(max_hp, max_mp, attack, defense, agility, smarts):
     print("Perception:  " + str(smarts))
 
 
-def menu_stats(c_hp, m_hp, c_mp, m_mp, atk, defense, agility, smarts):
-    print("\nStats")
-    print("-" * 17)
-    # "-" * 17 prints - 17 times
-    print("HP:      " + str(c_hp) + "/" + str(m_hp))
-    # + in this line and the next line concatenates the strings
-    print("MP:      " + str(c_mp) + "/" + str(m_mp))
-    print("Atk:     " + str(atk))
-    print("Def:     " + str(defense))
-    print("Spd:     " + str(agility))
-    print("Per:     " + str(smarts))
-    print("-" * 17, "\n")
-
-
 # Define functions to print menus so you can return to them in other menus
 def print_menu(menu):
+    """This function is used for printing the menus for player choices."""
     for index in range(len(menu)):
-        print(str(index+1) + ".  ", menu[index])
+        print(str(index + 1) + ".  ", menu[index])
 
 
 def print_sub_menu(menu):
+    """This function is basically the same as print_menu, but it leaves the 0
+    in for going back to the previous menu."""
     for index in range(len(menu)):
         print(str(index) + ".  ", menu[index])
 
 
 def print_menu_stats(short, stats):
+    """This function is called when the player wants to see their stats.
+    It prints their stats in a short, simplified list."""
     print("\nStats")
     print("-" * 17)
     for index in range(len(stats)):
@@ -225,7 +225,9 @@ def print_menu_stats(short, stats):
 
 
 def calculate_damage(attack, defense):
-    damage = int(abs((2*attack) - (2*defense)))
+    """This function calculates the damage of an attack."""
+    # IMPORTANT: Update this function for more balance
+    damage = int(abs((2 * attack) - (2 * defense)))
     damage *= random.random()
     damage = round(damage)
     return damage
@@ -233,6 +235,7 @@ def calculate_damage(attack, defense):
 
 def a_battle(list_battle, list_attack, stats_short, stats_menu, atk, agility,
              list_magic, c_mp, m_mp, defense, c_hp, m_hp):
+    """This function is the first battle sequence the player encounters."""
     input("\nNow that your stats are defined, your quest can finally begin!\n"
           "\nAdvance this text to begin The Quest. *")
     input("\nYou arrive in Europa with nothing but the clothes on you back,"
@@ -260,6 +263,7 @@ def a_battle(list_battle, list_attack, stats_short, stats_menu, atk, agility,
           "> and press Enter)\n")
     battle_over = 1
     while (battle_over == 1):
+        print("Health: " + str(c_hp))
         print_menu(list_battle)
         battle_input = input("\n> ")
         if (battle_input == "1"):
@@ -278,7 +282,8 @@ def a_battle(list_battle, list_attack, stats_short, stats_menu, atk, agility,
                           "\nThe enemy", e_name, "is dead!")
                     battle_over = 0
                 else:
-                    print("You dealt", dmg, "damage to the enemy", e_name+".")
+                    print("You dealt", dmg, "damage to the enemy", e_name + "."
+                          )
                     battle_over = 1
                     print("Will you...\n")
             elif (attack_input == "2"):
@@ -415,3 +420,4 @@ def a_battle(list_battle, list_attack, stats_short, stats_menu, atk, agility,
 
 
 main()
+aergsxrftgdih
